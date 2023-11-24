@@ -23,37 +23,34 @@ public class ConsoleTextWriter {
 
     // Method types text to console
     public void typeToConsole() {
-        boolean isExit = false;
-        String enteredText = null;
+        String enteredText = "";
         String filePath = "src/main/resources/";
         String fileName = "text.txt";
 
         try (FileWriter writer = new FileWriter(filePath + fileName, false)) {
             Scanner scanner = new Scanner(System.in);
 
-            while (!isExit) {
+            while (true) {
                 LOGGER.info(String.format("%sВведите текст: %s", ANSI_GREEN, ANSI_RESET));
 
-                while (true) {
-                    if (scanner.hasNextLine()) {
-                        enteredText = scanner.nextLine();
+                if (scanner.hasNextLine()) {
+                    enteredText = scanner.nextLine();
 
-                        assert enteredText != null;
-                        writer.write(enteredText);
+                    assert enteredText != null;
+                    writer.write(enteredText);
 
-                        isExit = true;
-                    } else {
-                        LOGGER.info(
-                                String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
-                                        ANSI_RED, ANSI_RESET)
-                        );
-                    }
                     break;
+                } else {
+                    LOGGER.info(
+                            String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
+                                    ANSI_RED, ANSI_RESET)
+                    );
                 }
-
-                LOGGER.info(ANSI_GREEN + "В файл " + ANSI_YELLOW + fileName + ANSI_GREEN
-                        + " был записан текст: " + "\n" + ANSI_YELLOW + enteredText + ANSI_RESET);
             }
+
+            LOGGER.info(ANSI_GREEN + "В файл " + ANSI_YELLOW + fileName + ANSI_GREEN
+                    + " был записан текст: " + "\n" + ANSI_YELLOW + enteredText + ANSI_RESET);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

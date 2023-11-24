@@ -23,10 +23,9 @@ public class TextFileReader {
     }
 
     // Method reads text from file
-    public void readTextFromFile() {
-        boolean isExit = false;
+    public String readTextFromFile() {
         String enteredText;
-        String text = null;
+        String text = "";
         String filePath = "src/main/resources/";
         String fileName = "text.txt";
 
@@ -34,34 +33,33 @@ public class TextFileReader {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath + fileName))) {
             Scanner scanner = new Scanner(System.in);
 
-            while (!isExit) {
+            while (true) {
                 LOGGER.info(String.format("%sВведите название файла для чтения: %s",
                         ANSI_GREEN, ANSI_RESET));
 
-                while (true) {
-                    if (scanner.hasNextLine()) {
-                        enteredText = scanner.nextLine();
+                if (scanner.hasNextLine()) {
+                    enteredText = scanner.nextLine();
 
-                        if (enteredText.equals(fileName)) {
-                            text = br.readLine();
-                        }
+                    if (enteredText.equals(fileName)) {
+                        text = br.readLine();
 
-                        isExit = true;
+                        break;
                     } else {
                         LOGGER.info(
                                 String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
                                         ANSI_RED, ANSI_RESET)
                         );
                     }
-                    break;
                 }
-
-                LOGGER.info(ANSI_GREEN + "Файл " + ANSI_YELLOW + fileName + ANSI_GREEN
-                        + " имеет следующее содержание: \n" + ANSI_YELLOW + text + ANSI_RESET);
             }
+
+            LOGGER.info(ANSI_GREEN + "Файл " + ANSI_YELLOW + fileName + ANSI_GREEN
+                    + " имеет следующее содержание: \n" + ANSI_YELLOW + text + ANSI_RESET);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        return text;
     }
 }
