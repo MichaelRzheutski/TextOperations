@@ -34,7 +34,7 @@ public class TextFileReader {
             Scanner scanner = new Scanner(System.in);
 
             while (true) {
-                LOGGER.info(String.format("%sВведите название файла для чтения: %s",
+                LOGGER.info(String.format("%sВведите название файла: %s",
                         ANSI_GREEN, ANSI_RESET));
 
                 if (scanner.hasNextLine()) {
@@ -43,19 +43,23 @@ public class TextFileReader {
                     if (enteredText.equals(fileName)) {
                         text = br.readLine();
 
+                        LOGGER.info(ANSI_GREEN + "Файл " + ANSI_YELLOW + fileName + ANSI_GREEN
+                                + " имеет следующее содержание: \n" + ANSI_YELLOW + text + ANSI_RESET);
+
                         break;
                     } else {
                         LOGGER.info(
-                                String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
+                                String.format("%sВведён неверный адрес файла, попробуйте ещё раз!%s\n",
                                         ANSI_RED, ANSI_RESET)
                         );
                     }
+                } else {
+                    LOGGER.info(
+                            String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
+                                    ANSI_RED, ANSI_RESET)
+                    );
                 }
             }
-
-            LOGGER.info(ANSI_GREEN + "Файл " + ANSI_YELLOW + fileName + ANSI_GREEN
-                    + " имеет следующее содержание: \n" + ANSI_YELLOW + text + ANSI_RESET);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

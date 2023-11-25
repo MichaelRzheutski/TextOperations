@@ -1,5 +1,6 @@
 package operations;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,10 +37,20 @@ public class ConsoleTextWriter {
                 if (scanner.hasNextLine()) {
                     enteredText = scanner.nextLine();
 
-                    assert enteredText != null;
-                    writer.write(enteredText);
+                    if (StringUtils.isNotBlank(enteredText)) {
+                        writer.write(enteredText);
 
-                    break;
+                        LOGGER.info(ANSI_GREEN + "В файл " + ANSI_YELLOW + fileName + ANSI_GREEN
+                                + " был записан текст: " + "\n" + ANSI_YELLOW + enteredText + ANSI_RESET);
+
+                        break;
+                    } else {
+                        LOGGER.info(
+                                String.format("%sВведена пустая строка, введите какой-то текст!%s\n",
+                                        ANSI_RED, ANSI_RESET)
+                        );
+                    }
+
                 } else {
                     LOGGER.info(
                             String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
@@ -47,10 +58,6 @@ public class ConsoleTextWriter {
                     );
                 }
             }
-
-            LOGGER.info(ANSI_GREEN + "В файл " + ANSI_YELLOW + fileName + ANSI_GREEN
-                    + " был записан текст: " + "\n" + ANSI_YELLOW + enteredText + ANSI_RESET);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

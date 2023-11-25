@@ -1,10 +1,7 @@
 import exceptions.NegativeValueException;
 import exceptions.NotNumberException;
 import exceptions.OutOfMenuBoundsException;
-import operations.ConsoleTextWriter;
-import operations.TextFileReader;
-import operations.UniqueWordsCounter;
-import operations.WordSplitter;
+import operations.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,8 +13,9 @@ import static helpers.ConsoleColors.*;
 public class ProgramMenu {
     ConsoleTextWriter consoleTextWriter = new ConsoleTextWriter();
     TextFileReader textFileReader = new TextFileReader();
-    UniqueWordsCounter uniqueWordsCounter = new UniqueWordsCounter();
+    TotalUniqueWordsFinder totalUniqueWordsFinder = new TotalUniqueWordsFinder();
     WordSplitter wordSplitter = new WordSplitter();
+    WordFinder wordFinder = new WordFinder();
 
     // Setup Logger log4j2
     static {
@@ -49,8 +47,9 @@ public class ProgramMenu {
                 );
                 LOGGER.info("[1]. Ввести какой-то текст");
                 LOGGER.info("[2]. Прочитать текстовый файл");
-                LOGGER.info("[3]. Посчитать количество уникальных слов в тексте");
-                LOGGER.info("[4]. Разделить текст на буквы");
+                LOGGER.info("[3]. Посчитать количество уникальных слов в тексте файла");
+                LOGGER.info("[4]. Получить все символы текста в файле в верхнем регистре");
+                LOGGER.info("[5]. Найти слово в тексте файла");
                 LOGGER.info("[0]. Выйти из программы");
 
                 if (scanner.hasNextInt()) {
@@ -60,9 +59,10 @@ public class ProgramMenu {
                         case 0 -> System.exit(0);
                         case 1 -> consoleTextWriter.typeToConsole();
                         case 2 -> textFileReader.readTextFromFile();
-                        case 3 -> uniqueWordsCounter.countUniqueWords();
-                        case 4 -> wordSplitter.splitTextIntoWords();
-                        case 5 -> throw new OutOfMenuBoundsException(
+                        case 3 -> totalUniqueWordsFinder.countUniqueWords();
+                        case 4 -> wordSplitter.getAllLetters();
+                        case 5 -> wordFinder.findWord();
+                        case 6 -> throw new OutOfMenuBoundsException(
                                 "Введён пункт меню " + option + " свыше доступных", option - 1);
                         case -1 -> throw new NegativeValueException("Введено негативное число", option);
                         default -> LOGGER.info(
