@@ -63,7 +63,7 @@ public class MainMenu {
                                     textFileReader.getReadText()
                             );
                         }
-                        default -> LOGGER.info(
+                        default -> LOGGER.debug(
                                 String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
                                         ANSI_RED, ANSI_RESET)
                         );
