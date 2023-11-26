@@ -12,8 +12,8 @@ import static helpers.ConsoleColors.*;
 
 public class ConsoleTextWriter {
     private String enteredText;
-    private String filePath = "src/main/resources/output/";
-    private String fileName = "output.txt";
+    private final String FILE_PATH = "src/main/resources/output/";
+    private final String FILE_NAME = "output.txt";
 
     // Setup Logger log4j2
     static {
@@ -27,7 +27,7 @@ public class ConsoleTextWriter {
 
     // Method types text to console
     public void typeToConsole() {
-        try (FileWriter writer = new FileWriter(filePath + fileName, false)) {
+        try (FileWriter writer = new FileWriter(FILE_PATH + FILE_NAME, false)) {
             Scanner scanner = new Scanner(System.in);
 
             while (true) {
@@ -39,7 +39,7 @@ public class ConsoleTextWriter {
                     if (StringUtils.isNotBlank(enteredText)) {
                         writer.write(enteredText);
 
-                        LOGGER.info(ANSI_GREEN + "В файл " + ANSI_YELLOW + fileName + ANSI_GREEN
+                        LOGGER.info(ANSI_GREEN + "В файл " + ANSI_YELLOW + FILE_NAME + ANSI_GREEN
                                 + " был записан текст: " + "\n" + ANSI_YELLOW + enteredText + ANSI_RESET);
 
                         break;
@@ -71,19 +71,11 @@ public class ConsoleTextWriter {
         this.enteredText = enteredText;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getFILE_PATH() {
+        return FILE_PATH;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public String getFILE_NAME() {
+        return FILE_NAME;
     }
 }

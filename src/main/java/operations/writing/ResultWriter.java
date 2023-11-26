@@ -9,8 +9,8 @@ import java.io.IOException;
 import static helpers.ConsoleColors.*;
 
 public class ResultWriter {
-    private String filePath = "src/main/resources/output/";
-    private String fileName = "output.txt";
+    private final String FILE_PATH = "src/main/resources/output/";
+    private final String FILE_NAME = "output.txt";
 
     // Setup Logger log4j2
     static {
@@ -27,7 +27,7 @@ public class ResultWriter {
             String textToOperate, int uniqueWordsNumber,
             String splittedWords, int numberfoundWords, String wordToSearch
     ) {
-        try (FileWriter writer = new FileWriter(filePath + fileName, false)) {
+        try (FileWriter writer = new FileWriter(FILE_PATH + FILE_NAME, false)) {
 
             StringBuilder newString = new StringBuilder();
             newString.append("____Уникальные слова____");
@@ -70,8 +70,16 @@ public class ResultWriter {
 
         LOGGER.info(
                 ANSI_GREEN + "Результат работы программы записан в файл: \n"
-                        + ANSI_YELLOW + fileName + "\n" + ANSI_RESET
+                        + ANSI_YELLOW + FILE_NAME + "\n" + ANSI_RESET
         );
 
+    }
+
+    public String getFILE_PATH() {
+        return FILE_PATH;
+    }
+
+    public String getFILE_NAME() {
+        return FILE_NAME;
     }
 }

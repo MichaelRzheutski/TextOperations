@@ -11,6 +11,8 @@ import static helpers.ConsoleColors.*;
 
 public class TextFileReader {
     private String readText;
+    private final String FILE_PATH = "src/main/resources/texts/";
+    private final String FILE_NAME = "LoremIpsum.txt";
 
     // Setup Logger log4j2
     static {
@@ -24,9 +26,6 @@ public class TextFileReader {
 
     // Method reads a text from the file
     public void readTextFromLoremIpsum() {
-        final String FILE_PATH = "src/main/resources/texts/";
-        final String FILE_NAME = "LoremIpsum.txt";
-
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH + FILE_NAME))) {
             readText = br.readLine();
 
@@ -48,5 +47,13 @@ public class TextFileReader {
 
     public void setReadText(String readText) {
         this.readText = readText;
+    }
+
+    public String getFILE_PATH() {
+        return FILE_PATH;
+    }
+
+    public String getFILE_NAME() {
+        return FILE_NAME;
     }
 }
