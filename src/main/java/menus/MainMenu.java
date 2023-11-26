@@ -54,13 +54,13 @@ public class MainMenu {
                         case 1 -> {
                             consoleTextWriter.typeToConsole();
                             textOperationsMenu.showTextOperationsMenu(
-                                    consoleTextWriter.getEnteredText()
+                                    scanner, consoleTextWriter.getEnteredText()
                             );
                         }
                         case 2 -> {
                             textFileReader.readTextFromLoremIpsum();
                             textOperationsMenu.showTextOperationsMenu(
-                                    textFileReader.getReadText()
+                                    scanner, textFileReader.getReadText()
                             );
                         }
                         default -> LOGGER.debug(

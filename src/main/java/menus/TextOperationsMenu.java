@@ -30,19 +30,21 @@ public class TextOperationsMenu {
     }
 
     // Text operations menu
-    public void showTextOperationsMenu(String textToOperate) {
+    public void showTextOperationsMenu(Scanner scanner, String textToOperate) {
         int option;
+        boolean isExit = false;
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (true) {
+        try {
+            while (!isExit) {
                 LOGGER.info(
                         String.format("%sПожалуйста, выберите одну из предложенных операций: %s",
                                 ANSI_GREEN, ANSI_RESET)
                 );
                 LOGGER.info("[1]. Посчитать количество уникальных слов в тексте файла");
-                LOGGER.info("[2]. Получить все символы текста в файле в верхнем регистре");
+                LOGGER.info("[2]. Получить все символы текста в верхнем регистре");
                 LOGGER.info("[3]. Посчитать количество вхождений слова в тексте");
                 LOGGER.info("[4]. Записать результат работы программы в файл");
+                LOGGER.info("[5]. Выйти в предыдущее меню");
                 LOGGER.info("[0]. Выйти из программы");
 
                 if (scanner.hasNextInt()) {
@@ -65,6 +67,7 @@ public class TextOperationsMenu {
                                 wordSplitter.getUppercasedText(),
                                 wordFinder.getTotalFoundWords(),
                                 wordFinder.getWordToSearch());
+                        case 5 -> isExit = true;
                         default -> LOGGER.info(
                                 String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
                                         ANSI_RED, ANSI_RESET)
