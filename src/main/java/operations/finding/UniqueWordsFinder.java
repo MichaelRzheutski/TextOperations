@@ -1,4 +1,4 @@
-package operations;
+package operations.finding;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,8 +11,8 @@ import java.util.List;
 
 import static helpers.ConsoleColors.*;
 
-public class TotalUniqueWordsFinder {
-    TextFileReader textFileReader = new TextFileReader();
+public class UniqueWordsFinder {
+    private int totalUniqueWordsQuantity;
 
     // Setup Logger log4j2
     static {
@@ -21,15 +21,12 @@ public class TotalUniqueWordsFinder {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public TotalUniqueWordsFinder() {
+    public UniqueWordsFinder() {
     }
 
     // Method counts unique words quantity in the text
-    public int countUniqueWords() throws IOException {
-        String text = textFileReader.readTextFromFile();
+    public int countUniqueWords(String text) throws IOException {
         List<String> uniqueWordsList = new ArrayList<>();
-
-        int totalUniqueWordsQuantity;
 
         String lowercasedText = StringUtils.lowerCase(text);
         String clearedText = RegExUtils.removePattern(lowercasedText, "[^а-яёa-z\\s]");
@@ -47,5 +44,13 @@ public class TotalUniqueWordsFinder {
         );
 
         return totalUniqueWordsQuantity;
+    }
+
+    public int getUniqueWordsQuantity() {
+        return totalUniqueWordsQuantity;
+    }
+
+    public void setUniqueWordsQuantity(int totalUniqueWordsQuantity) {
+        this.totalUniqueWordsQuantity = totalUniqueWordsQuantity;
     }
 }

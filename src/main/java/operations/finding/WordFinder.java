@@ -1,4 +1,4 @@
-package operations;
+package operations.finding;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +13,8 @@ import java.util.Scanner;
 import static helpers.ConsoleColors.*;
 
 public class WordFinder {
-    TextFileReader textFileReader = new TextFileReader();
+    private String wordToSearch;
+    private int totalFoundWords;
 
     // Setup Logger log4j2
     static {
@@ -25,39 +26,51 @@ public class WordFinder {
     public WordFinder() {
     }
 
-    public int findWord() {
-        String text = textFileReader.readTextFromFile();
-        int totalFoundWords = 0;
-        String enteredWord = "";
-
+    // Method searches word in the text
+    public int findWord(String text) {
         String lowercasedText = StringUtils.lowerCase(text);
         lowercasedText = RegExUtils.removePattern(lowercasedText, "[^а-яёa-z\\s]");
         List<String> wordList = new ArrayList<>(Arrays.asList(StringUtils.split(lowercasedText)));
 
         Scanner scanner = new Scanner(System.in);
-
         LOGGER.info(ANSI_GREEN + "Введите слово для поиска:" + ANSI_RESET);
 
         if (scanner.hasNextLine()) {
-            enteredWord = scanner.nextLine();
+            wordToSearch = scanner.nextLine();
         }
 
         for (String word : wordList) {
-            if (StringUtils.equals(word, enteredWord)) {
+            if (StringUtils.equals(word, wordToSearch)) {
                 totalFoundWords++;
             }
         }
 
         LOGGER.info(
-                ANSI_GREEN + "Поиск по слову: \n"
-                        + ANSI_YELLOW + enteredWord + ANSI_RESET
+                ANSI_GREEN + "Поиск осуществлён по слову: "
+                        + ANSI_YELLOW + wordToSearch + ANSI_RESET
         );
 
         LOGGER.info(
-                ANSI_GREEN + "Всего нашлось совпадений в тексте: \n"
-                        + ANSI_YELLOW + totalFoundWords + ANSI_RESET
+                ANSI_GREEN + "Всего нашлось совпадений в тексте: "
+                        + ANSI_YELLOW + totalFoundWords + "\n" + ANSI_RESET
         );
 
         return totalFoundWords;
+    }
+
+    public String getWordToSearch() {
+        return wordToSearch;
+    }
+
+    public void setWordToSearch(String wordToSearch) {
+        this.wordToSearch = wordToSearch;
+    }
+
+    public int getTotalFoundWords() {
+        return totalFoundWords;
+    }
+
+    public void setTotalFoundWords(int totalFoundWords) {
+        this.totalFoundWords = totalFoundWords;
     }
 }

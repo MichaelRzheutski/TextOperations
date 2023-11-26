@@ -12,7 +12,7 @@ import java.util.List;
 import static helpers.ConsoleColors.*;
 
 public class WordSplitter {
-    TextFileReader textFileReader = new TextFileReader();
+    private String uppercasedText;
 
     // Setup Logger log4j2
     static {
@@ -24,11 +24,10 @@ public class WordSplitter {
     public WordSplitter() {
     }
 
-    public String getAllLetters() throws IOException {
-        String text = textFileReader.readTextFromFile();
+    public String getAllLetters(String text) throws IOException {
         List<Character> characterList = new ArrayList<>();
 
-        String uppercasedText = StringUtils.upperCase(text);
+        uppercasedText = StringUtils.upperCase(text);
         uppercasedText = RegExUtils.removePattern(uppercasedText, "[^А-ЯЁA-Z]");
         for (char letter : uppercasedText.toCharArray()) {
             characterList.add(letter);
@@ -48,10 +47,17 @@ public class WordSplitter {
         return uppercasedText;
     }
 
-    public int totalWords(String text) throws IOException  {
+    public int totalWords(String text) {
         String clearedText = RegExUtils.removePattern(text, "[^А-Яа-яЁёA-Za-z]");
-        int totalLetters = clearedText.length();
 
-        return totalLetters;
+        return clearedText.length();
+    }
+
+    public String getUppercasedText() {
+        return uppercasedText;
+    }
+
+    public void setUppercasedText(String uppercasedText) {
+        this.uppercasedText = uppercasedText;
     }
 }

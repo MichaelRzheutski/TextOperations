@@ -1,4 +1,4 @@
-package operations;
+package operations.writing;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +11,9 @@ import java.util.Scanner;
 import static helpers.ConsoleColors.*;
 
 public class ConsoleTextWriter {
+    private String enteredText;
+    private String filePath = "src/main/resources/output/";
+    private String fileName = "output.txt";
 
     // Setup Logger log4j2
     static {
@@ -24,10 +27,6 @@ public class ConsoleTextWriter {
 
     // Method types text to console
     public void typeToConsole() {
-        String enteredText = "";
-        String filePath = "src/main/resources/";
-        String fileName = "text.txt";
-
         try (FileWriter writer = new FileWriter(filePath + fileName, false)) {
             Scanner scanner = new Scanner(System.in);
 
@@ -61,5 +60,30 @@ public class ConsoleTextWriter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    public String getEnteredText() {
+        return enteredText;
+    }
+
+    public void setEnteredText(String enteredText) {
+        this.enteredText = enteredText;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
