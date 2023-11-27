@@ -11,6 +11,7 @@ import static helpers.ConsoleColors.*;
 public class ResultWriter {
     private final String FILE_PATH = "src/main/resources/output/";
     private final String FILE_NAME = "output.txt";
+    static int iterationsCounter = 0;
 
     // Setup Logger log4j2
     static {
@@ -27,9 +28,13 @@ public class ResultWriter {
             String textToOperate, int uniqueWordsNumber,
             String splittedWords, int numberfoundWords, String wordToSearch
     ) {
-        try (FileWriter writer = new FileWriter(FILE_PATH + FILE_NAME, false)) {
+        try (FileWriter writer = new FileWriter(FILE_PATH + FILE_NAME, true)) {
 
             StringBuilder newString = new StringBuilder();
+            iterationsCounter++;
+
+            newString.append("\n[*** ПРОХОД ").append(iterationsCounter)
+                    .append(". НАЧАЛО ЗАПИСИ ***]").append("\n");
             newString.append("____Уникальные слова____");
             newString.append("\n");
             newString.append("Базовый текст: ").append(textToOperate).append("\n");
@@ -60,6 +65,9 @@ public class ResultWriter {
                 newString.append("Количество найденных слов: слова не найдены, " +
                         "сначала найдите слова").append("\n");
             }
+
+            newString.append("[*** ПРОХОД ").append(iterationsCounter)
+                    .append(". ЗАПИСЬ ВЫПОЛНЕНА ***]").append("\n");
 
             writer.write(String.valueOf(newString));
 
