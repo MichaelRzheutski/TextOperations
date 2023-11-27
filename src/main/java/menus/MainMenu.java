@@ -39,8 +39,8 @@ public class MainMenu {
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 LOGGER.info(
-                        String.format("%sПожалуйста, выберите одну из предложенных операций: %s",
-                                ANSI_GREEN, ANSI_RESET)
+                        ANSI_GREEN + "Пожалуйста, " +
+                                "выберите одну из предложенных операций: " + ANSI_RESET
                 );
                 LOGGER.info("[1]. Ввести какой-то текст");
                 LOGGER.info("[2]. Прочитать текстовый файл \"LoremIpsum\"");
@@ -64,18 +64,20 @@ public class MainMenu {
                             );
                         }
                         default -> LOGGER.debug(
-                                String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
-                                        ANSI_RED, ANSI_RESET)
+                                ANSI_RED + "Неверная операция, " +
+                                        "попробуйте ещё раз!\n" + ANSI_RESET
                         );
                     }
                 } else {
-                    throw new NotNumberException("Вместо числа введена строка", scanner.next());
+                    throw new NotNumberException(
+                            "вместо числа введена строка "
+                                    + ANSI_YELLOW + scanner.next() + ANSI_RESET);
                 }
             }
         } catch (NotNumberException e) {
-            LOGGER.debug(ANSI_RED +
-                    "Ой, произошла ошибочка " + e + " " + ANSI_YELLOW + e.getValue()
-                    + ANSI_RED + " в классе: " + ANSI_GREEN + getClass().getName() + ANSI_RESET);
+            LOGGER.debug(ANSI_RED + "Ошибка в классе: " + ANSI_GREEN
+                    + getClass().getName() + " "
+                    + ANSI_RED + e.getMessage() + ANSI_RESET);
         }
     }
 }

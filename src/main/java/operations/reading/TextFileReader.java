@@ -36,9 +36,9 @@ public class TextFileReader {
             );
 
         } catch (IOException e) {
-            LOGGER.debug(ANSI_RED +
-                    "Ошибка " + e + " " + ANSI_YELLOW + e.getMessage()
-                    + ANSI_RED + " в классе: " + ANSI_GREEN + getClass().getName() + ANSI_RESET);
+            LOGGER.debug(ANSI_RED + "Ошибка в классе: " + ANSI_GREEN
+                    + getClass().getName() + " "
+                    + ANSI_RED + e.getMessage() + "\n" + ANSI_RESET);
         }
     }
 

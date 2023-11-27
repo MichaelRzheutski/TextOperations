@@ -39,28 +39,30 @@ public class ConsoleTextWriter {
                     if (StringUtils.isNotBlank(enteredText)) {
                         writer.write(enteredText);
 
-                        LOGGER.info(ANSI_GREEN + "В файл " + ANSI_YELLOW + FILE_NAME + ANSI_GREEN
-                                + " был записан текст: " + "\n" + ANSI_YELLOW + enteredText + ANSI_RESET);
+                        LOGGER.info(
+                                ANSI_GREEN + "В файл " + ANSI_YELLOW + FILE_NAME + ANSI_GREEN
+                                        + " был записан текст: "
+                                        + "\n" + ANSI_YELLOW + enteredText + ANSI_RESET);
 
                         break;
                     } else {
-                        LOGGER.info(
-                                String.format("%sВведена пустая строка, введите какой-то текст!%s\n",
-                                        ANSI_RED, ANSI_RESET)
+                        LOGGER.debug(
+                                ANSI_RED + "Введена пустая строка, " +
+                                        "введите какой-то текст!\n" + ANSI_RESET
                         );
                     }
 
                 } else {
-                    LOGGER.info(
-                            String.format("%sНеверная операция, попробуйте ещё раз!%s\n",
-                                    ANSI_RED, ANSI_RESET)
+                    LOGGER.debug(
+                            ANSI_RED + "%sНеверная операция, " +
+                                    "попробуйте ещё раз!\n" + ANSI_RESET
                     );
                 }
             }
         } catch (IOException e) {
-            LOGGER.debug(ANSI_RED +
-                    "Ошибка " + e + " " + ANSI_YELLOW + e.getMessage()
-                    + ANSI_RED + " в классе: " + ANSI_GREEN + getClass().getName() + ANSI_RESET);
+            LOGGER.debug(ANSI_RED + "Ошибка в классе: " + ANSI_GREEN
+                    + getClass().getName() + " "
+                    + ANSI_RED + e.getMessage() + "\n" + ANSI_RESET);
         }
     }
 

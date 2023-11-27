@@ -46,38 +46,48 @@ public class WordFinder {
                     "^", "*", "(", ")", "+", "-", "/", "|", "<", ">", "\n", "\t"};
 
             for (String word : wordList) {
-                if (StringUtils.equals(word, wordToSearch)) {
-                    totalFoundWords++;
-                }
                 if (!StringUtils.isAlpha(word)) {
-                    throw new NonUnicodeSymbolsException("В поисковом запросе "
-                            + ANSI_YELLOW + wordToSearch + ANSI_RED
-                            + " содержатся символы кроме Юникода, уберите лишние символы!");
+                    throw new NonUnicodeSymbolsException(
+                            "в поисковом запросе "
+                                    + ANSI_YELLOW + wordToSearch + ANSI_RED
+                                    + " содержатся символы кроме Юникода, уберите лишние символы!"
+                    );
                 }
                 if (StringUtils.length(wordToSearch) <= 2) {
-                    throw new LackQueryWordsException("В поисковом запросе "
-                            + ANSI_YELLOW + wordToSearch + ANSI_RED
-                            + " 2 или менее символов, введите слово целиком!");
+                    throw new LackQueryWordsException(
+                            "в поисковом запросе "
+                                    + ANSI_YELLOW + wordToSearch + ANSI_RED
+                                    + " 2 или менее символов, введите слово целиком!"
+                    );
                 }
                 if (StringUtils.isNumeric(wordToSearch)) {
-                    throw new NumberInsteadWordException("Вы ввели число "
-                            + ANSI_YELLOW + wordToSearch + ANSI_RED
-                            + " вместо слова, введите слово!");
+                    throw new NumberInsteadWordException(
+                            "вы ввели число "
+                                    + ANSI_YELLOW + wordToSearch + ANSI_RED
+                                    + " вместо слова, введите слово!"
+                    );
                 }
                 if (StringUtils.containsAny(wordToSearch, numbers)) {
-                    throw new NumberInSearchQueryException("В поисковом запросе "
-                            + ANSI_YELLOW + wordToSearch + ANSI_RED + " присутствует цифра, " +
-                            "введите слово без цифры!");
+                    throw new NumberInSearchQueryException(
+                            "в поисковом запросе " + ANSI_YELLOW + wordToSearch + ANSI_RED
+                                    + " присутствует цифра, " + "введите слово без цифры!"
+                    );
                 }
                 if (StringUtils.containsAny(wordToSearch, " ")) {
-                    throw new SpaceInSearchQueryException("В поисковом запросе "
-                            + ANSI_YELLOW + wordToSearch + ANSI_RED + " присутствует пробел, " +
-                            "введите одно слово!");
+                    throw new SpaceInSearchQueryException(
+                            "в поисковом запросе " + ANSI_YELLOW + wordToSearch + ANSI_RED
+                                    + " присутствует пробел, " + "введите одно слово!"
+                    );
                 }
                 if (StringUtils.containsAny(wordToSearch, specSymbols)) {
-                    throw new SpecialCharacterInQueryException("В поисковом запросе "
-                            + ANSI_YELLOW + wordToSearch + ANSI_RED + " присутствует спецсимвол(ы), " +
-                            "введите слово без спецсимволов!", wordToSearch);
+                    throw new SpecialCharacterInQueryException(
+                            "в поисковом запросе " + ANSI_YELLOW + wordToSearch + ANSI_RED
+                                    + " присутствует спецсимвол(ы), "
+                                    + "введите слово без спецсимволов!"
+                    );
+                }
+                if (StringUtils.equals(word, wordToSearch)) {
+                    totalFoundWords++;
                 }
             }
 
@@ -90,9 +100,16 @@ public class WordFinder {
                     ANSI_GREEN + "Всего нашлось совпадений в тексте: "
                             + ANSI_YELLOW + totalFoundWords + "\n" + ANSI_RESET
             );
-        } catch (NonUnicodeSymbolsException | LackQueryWordsException | NumberInsteadWordException
-                 | NumberInSearchQueryException | SpaceInSearchQueryException | SpecialCharacterInQueryException e) {
-            LOGGER.debug(ANSI_RED + "Ошибка в классе: " + ANSI_GREEN + getClass().getName() + " " + ANSI_RED + e.getMessage() + ANSI_RED + "" + "\n" + ANSI_RESET);
+        } catch (NonUnicodeSymbolsException
+                 | LackQueryWordsException
+                 | NumberInsteadWordException
+                 | NumberInSearchQueryException
+                 | SpaceInSearchQueryException
+                 | SpecialCharacterInQueryException e) {
+
+            LOGGER.debug(ANSI_RED + "Ошибка в классе: " + ANSI_GREEN
+                    + getClass().getName() + " " + ANSI_RED + e.getMessage()
+                    + ANSI_RED + "\n" + ANSI_RESET);
         }
 
         return totalFoundWords;
