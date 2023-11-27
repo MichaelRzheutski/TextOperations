@@ -1,5 +1,6 @@
 package operations.finding;
 
+import exceptions.*;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -33,27 +34,66 @@ public class WordFinder {
         List<String> wordList = new ArrayList<>(Arrays.asList(StringUtils.split(lowercasedText)));
 
         Scanner scanner = new Scanner(System.in);
-        LOGGER.info(ANSI_GREEN + "Введите слово для поиска:" + ANSI_RESET);
+        try {
+            LOGGER.info(ANSI_GREEN + "Введите слово для поиска:" + ANSI_RESET);
 
-        if (scanner.hasNextLine()) {
-            wordToSearch = scanner.nextLine();
-        }
-
-        for (String word : wordList) {
-            if (StringUtils.equals(word, wordToSearch)) {
-                totalFoundWords++;
+            if (scanner.hasNextLine()) {
+                wordToSearch = scanner.nextLine().toLowerCase();
             }
+
+            String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+            String[] specSymbols = {",", ".", "&", "?", "!", "@", "#", "$", "%",
+                    "^", "*", "(", ")", "+", "-", "/", "|", "<", ">", "\n", "\t"};
+
+            for (String word : wordList) {
+                if (StringUtils.equals(word, wordToSearch)) {
+                    totalFoundWords++;
+                }
+                if (!StringUtils.isAlpha(word)) {
+                    throw new NonUnicodeSymbolsException("В поисковом запросе "
+                            + ANSI_YELLOW + wordToSearch + ANSI_RED
+                            + " содержатся символы кроме Юникода, уберите лишние символы!");
+                }
+                if (StringUtils.length(wordToSearch) <= 2) {
+                    throw new LackQueryWordsException("В поисковом запросе "
+                            + ANSI_YELLOW + wordToSearch + ANSI_RED
+                            + " 2 или менее символов, введите слово целиком!");
+                }
+                if (StringUtils.isNumeric(wordToSearch)) {
+                    throw new NumberInsteadWordException("Вы ввели число "
+                            + ANSI_YELLOW + wordToSearch + ANSI_RED
+                            + " вместо слова, введите слово!");
+                }
+                if (StringUtils.containsAny(wordToSearch, numbers)) {
+                    throw new NumberInSearchQueryException("В поисковом запросе "
+                            + ANSI_YELLOW + wordToSearch + ANSI_RED + " присутствует цифра, " +
+                            "введите слово без цифры!");
+                }
+                if (StringUtils.containsAny(wordToSearch, " ")) {
+                    throw new SpaceInSearchQueryException("В поисковом запросе "
+                            + ANSI_YELLOW + wordToSearch + ANSI_RED + " присутствует пробел, " +
+                            "введите одно слово!");
+                }
+                if (StringUtils.containsAny(wordToSearch, specSymbols)) {
+                    throw new SpecialCharacterInQueryException("В поисковом запросе "
+                            + ANSI_YELLOW + wordToSearch + ANSI_RED + " присутствует спецсимвол(ы), " +
+                            "введите слово без спецсимволов!", wordToSearch);
+                }
+            }
+
+            LOGGER.info(
+                    ANSI_GREEN + "Поиск осуществлён по слову: "
+                            + ANSI_YELLOW + wordToSearch + ANSI_RESET
+            );
+
+            LOGGER.info(
+                    ANSI_GREEN + "Всего нашлось совпадений в тексте: "
+                            + ANSI_YELLOW + totalFoundWords + "\n" + ANSI_RESET
+            );
+        } catch (NonUnicodeSymbolsException | LackQueryWordsException | NumberInsteadWordException
+                 | NumberInSearchQueryException | SpaceInSearchQueryException | SpecialCharacterInQueryException e) {
+            LOGGER.debug(ANSI_RED + "Ошибка в классе: " + ANSI_GREEN + getClass().getName() + " " + ANSI_RED + e.getMessage() + ANSI_RED + "" + "\n" + ANSI_RESET);
         }
-
-        LOGGER.info(
-                ANSI_GREEN + "Поиск осуществлён по слову: "
-                        + ANSI_YELLOW + wordToSearch + ANSI_RESET
-        );
-
-        LOGGER.info(
-                ANSI_GREEN + "Всего нашлось совпадений в тексте: "
-                        + ANSI_YELLOW + totalFoundWords + "\n" + ANSI_RESET
-        );
 
         return totalFoundWords;
     }

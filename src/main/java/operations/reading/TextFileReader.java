@@ -36,9 +36,10 @@ public class TextFileReader {
             );
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.debug(ANSI_RED +
+                    "Ошибка " + e + " " + ANSI_YELLOW + e.getMessage()
+                    + ANSI_RED + " в классе: " + ANSI_GREEN + getClass().getName() + ANSI_RESET);
         }
-
     }
 
     public String getReadText() {

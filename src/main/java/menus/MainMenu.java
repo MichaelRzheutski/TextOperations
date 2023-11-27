@@ -33,7 +33,7 @@ public class MainMenu {
     }
 
     // Main menu
-    public void mainMenu() {
+    public final void mainMenu() {
         int option;
 
         try (Scanner scanner = new Scanner(System.in)) {

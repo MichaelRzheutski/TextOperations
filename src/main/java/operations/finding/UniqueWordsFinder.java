@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class UniqueWordsFinder {
     }
 
     // Method counts unique words quantity in the text
-    public int countUniqueWords(String text) throws IOException {
+    public int countUniqueWords(String text) {
         List<String> uniqueWordsList = new ArrayList<>();
 
         String lowercasedText = StringUtils.lowerCase(text);

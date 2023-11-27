@@ -30,7 +30,7 @@ public class TextOperationsMenu {
     }
 
     // Text operations menu
-    public void showTextOperationsMenu(Scanner scanner, String textToOperate) {
+    public final void showTextOperationsMenu(Scanner scanner, String textToOperate) {
         int option;
         boolean isExit = false;
 
@@ -82,7 +82,9 @@ public class TextOperationsMenu {
                     "Ой, произошла ошибочка " + e + " " + ANSI_YELLOW + e.getValue()
                     + ANSI_RED + " в классе: " + ANSI_GREEN + getClass().getName() + ANSI_RESET);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.debug(ANSI_RED +
+                    "Ошибка " + e + " " + ANSI_YELLOW + e.getMessage()
+                    + ANSI_RED + " в классе: " + ANSI_GREEN + getClass().getName() + ANSI_RESET);
         }
     }
 }
