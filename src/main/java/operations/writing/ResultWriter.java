@@ -11,7 +11,6 @@ import static helpers.ConsoleColors.*;
 public class ResultWriter {
     private final String FILE_PATH = "src/main/resources/output/";
     private final String FILE_NAME = "output.txt";
-
     static int iterationsCounter = 0;
 
     // Setup Logger log4j2
