@@ -1,5 +1,6 @@
 out/
 target/
 .idea/
+src/main/resources/output/output.txt
 !**/src/main/**/out/
 !**/src/test/**/out/
