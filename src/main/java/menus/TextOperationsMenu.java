@@ -1,10 +1,8 @@
 package menus;
 
 import exceptions.NotNumberException;
-import operations.WordSplitter;
-import operations.finding.UniqueWordsFinder;
-import operations.finding.WordFinder;
-import operations.writing.ResultWriter;
+import operations.TextClass;
+import operations.TextOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,10 +12,7 @@ import java.util.Scanner;
 import static helpers.ConsoleColors.*;
 
 public class TextOperationsMenu {
-    UniqueWordsFinder uniqueWordsFinder = new UniqueWordsFinder();
-    WordSplitter wordSplitter = new WordSplitter();
-    WordFinder wordFinder = new WordFinder();
-    ResultWriter resultWriter = new ResultWriter();
+    TextOperations textOperations = new TextOperations();
 
     // Setup Logger log4j2
     static {
@@ -30,7 +25,7 @@ public class TextOperationsMenu {
     }
 
     // Text operations menu
-    public final void showTextOperationsMenu(Scanner scanner, String textToOperate) {
+    public final void showTextOperationsMenu(Scanner scanner, TextClass textClass) {
         int option;
         boolean isExit = false;
 
@@ -44,7 +39,8 @@ public class TextOperationsMenu {
                 LOGGER.info("[2]. Получить все символы текста в верхнем регистре");
                 LOGGER.info("[3]. Посчитать количество вхождений слова в тексте");
                 LOGGER.info("[4]. Записать результат работы программы в файл");
-                LOGGER.info("[5]. Выйти в предыдущее меню");
+                LOGGER.info("[5]. Очистить файл с записями операций");
+                LOGGER.info("[6]. Выйти в предыдущее меню");
                 LOGGER.info("[0]. Выйти из программы");
 
                 if (scanner.hasNextInt()) {
@@ -52,22 +48,22 @@ public class TextOperationsMenu {
 
                     switch (option) {
                         case 0 -> System.exit(0);
-                        case 1 -> uniqueWordsFinder.setUniqueWordsQuantity(
-                                uniqueWordsFinder.countUniqueWords(textToOperate)
+                        case 1 -> textClass.setTotalUniqueWords(
+                                textOperations.countUniqueWords(textClass)
                         );
-                        case 2 -> wordSplitter.setUppercasedText(
-                                wordSplitter.getAllLetters(textToOperate)
+
+                        case 2 -> textClass.setUppercasedText(
+                                textOperations.uppercaseAllLetters(textClass)
                         );
-                        case 3 -> wordFinder.setTotalFoundWords(
-                                wordFinder.findWord(textToOperate)
+                        case 3 -> textClass.setTotalFoundWords(
+                                textOperations.findWord(scanner, textClass)
                         );
-                        case 4 -> resultWriter.writeResultToFile(
-                                textToOperate,
-                                uniqueWordsFinder.getUniqueWordsQuantity(),
-                                wordSplitter.getUppercasedText(),
-                                wordFinder.getTotalFoundWords(),
-                                wordFinder.getWordToSearch());
-                        case 5 -> isExit = true;
+                        case 4 -> textOperations.writeOperationsResultToFile(textClass);
+                        case 5 -> {
+                            LOGGER.info(ANSI_GREEN + "Вы уверены? [1]. Да | [2]. Нет" + ANSI_RESET);
+                            textOperations.askForFileClean(scanner);
+                        }
+                        case 6 -> isExit = true;
                         default -> LOGGER.debug(
                                 ANSI_RED + "Неверная операция, " +
                                         "попробуйте ещё раз!\n" + ANSI_RESET
